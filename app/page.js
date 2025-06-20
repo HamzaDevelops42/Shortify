@@ -4,18 +4,20 @@ import Button from "@/components/button";
 import { useState } from "react";
 import Link from "next/link";
 import { ToastContainer, toast } from 'react-toastify';
+import Loader from "@/components/loader";
 
 export default function Home() {
   const [url, seturl] = useState("")
   const [preferredUrl, setpreferredUrl] = useState("")
   const [Generated, setGenerated] = useState({ success: false, Url: "", message: "" })
+  const [loading, setloading] = useState(false)
 
   const generate = () => {
     if (url.length < 3 || preferredUrl.length < 3) {
       toast.error("minimum length is 3")
     } else {
-
-
+      setGenerated({ success: false, Url: "", message: "" })
+      setloading(true)
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -43,7 +45,11 @@ export default function Home() {
             toast.error(result.message)
           }
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error);
+          toast.error("Something went wrong");
+        })
+        .finally(() => setloading(false))
     }
   }
 
@@ -67,16 +73,21 @@ export default function Home() {
             <InputWithLabel label="Enter the Url" placeholder="" className="" value={url} onChange={(e) => seturl(e.target.value)} />
             <InputWithLabel label="Enter the prefered Url" placeholder="" className="" value={preferredUrl} onChange={(e) => setpreferredUrl(e.target.value)} />
           </div>
-          <Button  text="Generate" onClick={generate} />
+          <Button text="Generate" onClick={generate} />
         </div>
         <div>
+           {loading && <div className="w-full my-10 flex justify-center items-center">
+          <Loader />
+        </div>}
           {Generated.success && <div className="relative">
             <div className={`mt-7 mx-10 block px-2.5 pb-2.5 pt-4 text-sm  bg-transparent rounded-lg border-1 border-green-600 text-green-400 }`}>
               <div className="mb-2">{Generated.message}</div>
-              <Link className="underline underline-offset-2 text-black" href={Generated.Url} target="__blank">{Generated.Url}</Link>
+              <Link className="underline underline-offset-2 text-black break-words whitespace-normal " href={Generated.Url} target="__blank">{Generated.Url}</Link>
             </div>
           </div>}
         </div>
+       
+
       </main>
 
 
