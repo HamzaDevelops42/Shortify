@@ -67,7 +67,7 @@ export default function Home() {
         pauseOnHover
         theme="light"
       />
-      <main className="text-black mt-20 py-10  w-1/3 mx-auto h-full bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-200">
+      <main className="text-black mt-20 py-10 w-[90%]  md:w-1/3 mx-auto h-full bg-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-200">
         <div className=" flex flex-col gap-8 justify-center items-center">
           <div className="text-black w-[80%] flex flex-col gap-5">
             <InputWithLabel label="Enter the Url" placeholder="" className="" value={url} onChange={(e) => seturl(e.target.value)} />
